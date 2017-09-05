@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 require 'tempfile'
-require_relative 'DependencyMapper.rb'
+require 'dependencyswapper/DependencyMapper.rb'
+
 module Dependency
 	class DependencyReplacer
 		attr_reader :dependency_name

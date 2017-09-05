@@ -1,6 +1,8 @@
 require "dependencyswapper/version"
-require "dependencyswapper/DependencySwapper"
+require "dependencyswapper/DependencyReplacer.rb"
+require "dependencyswapper/DependencyMapper.rb"
 
-module Dependencyswapper
-  # Your code goes here...
-end
+dependency_name = ARGV[0]
+Dependency::DependencyReplacer.new({
+		:dependency_name => dependency_name
+	}).run

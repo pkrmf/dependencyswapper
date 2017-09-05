@@ -1,7 +1,7 @@
-#!/usr/bin/env ruby
-require_relative 'DependencyReplacer.rb'
+# #!/usr/bin/env ruby
+# require 'dependencyswapper/DependencyReplacer.rb'
 
-dependency_name = ARGV[0]
-DependencyReplacer.new({
-		:dependency_name => dependency_name
-	}).run
+# dependency_name = ARGV[0]
+# Dependency::DependencyReplacer.new({
+# 		:dependency_name => dependency_name
+# 	}).run

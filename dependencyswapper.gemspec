@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Swaps the cocoapods dependencies between a production environment and a test/development environment"
   spec.description   = "The dependencyswapper allows developers to switch between non source pods to source pods or to development pods. This gem comes very handy for framework developers that produce frameworks as binaries and not as source."
-  spec.homepage      = "https://github.com/something"
+  spec.homepage      = "https://github.com/pkrmf/dependencyswapper"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_runtime_dependency "thor"
 end
