@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
  require "dependencyswapper/cli"
 
- Dependency::CLI.start
+ Dependency::CLI.start ARGV

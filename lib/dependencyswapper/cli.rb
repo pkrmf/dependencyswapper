@@ -3,9 +3,8 @@
 
  module Dependency
    class CLI < Thor
-     desc "ipsum", "Lorem Ipsum text generator"
-       def ipsum
-         puts Lorem.ipsum
-     end
+   		Dependency::DependencySwapper.new({
+			:dependency_name => ARGV[0]
+		}).run
    end
   end

@@ -24,7 +24,6 @@ module Dependency
 	 			 if line.include? "'" + dependency_name + "'"
 	 			 	# We will look at the DependencyMapper to map each Framework with its git repository.
 	 			 	remote_url = dependency_mapper.dependency_replacements[dependency_name]
-	 			 	puts remote_url
 	 			 	file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "'\n"
 	 			 end
 			end
