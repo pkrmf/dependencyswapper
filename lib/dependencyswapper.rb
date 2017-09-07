@@ -2,6 +2,7 @@ require "dependencyswapper/version"
 #require "dependencyswapper/DependencySwapper.rb"
 require "dependencyswapper/DependencyReplacer.rb"
 require "dependencyswapper/DependencyMapper.rb"
+require 'fileutils'
 
 module Dependency
 	class DependencySwapper
@@ -16,6 +17,8 @@ module Dependency
 		end
 
 		def run
+		#Dir.mkdir(directory_name) unless File.exists?(directory_name)
+
 			Dependency::DependencyReplacer.new({
 				:dependency_name => @dependency_name
 			}).run

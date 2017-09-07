@@ -2,6 +2,7 @@
 require 'fileutils'
 require 'tempfile'
 require 'dependencyswapper/DependencyMapper.rb'
+require 'json'
 
 module Dependency
 	class DependencyReplacer
@@ -18,13 +19,19 @@ module Dependency
 
 		def run
 			file_lines = ''
-			dependency_mapper = DependencyMapper.new({})
+			file = File.read("#{Dir.home}/.depswapper/depmapper.json")
+			dependency_replacements = JSON.parse(file)
+
 			IO.readlines(@podfile_path).each do |line|
 	 			 file_lines += line unless line.include? "'" + dependency_name + "'"
 	 			 if line.include? "'" + dependency_name + "'"
 	 			 	# We will look at the DependencyMapper to map each Framework with its git repository.
-	 			 	remote_url = dependency_mapper.dependency_replacements[dependency_name]
-	 			 	file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "'\n"
+	 			 	remote_url = dependency_replacements[dependency_name]
+	 			 	if remote_url.to_s.empty?
+  						puts "You are missing the dependency mapping for " + dependency_name
+					else 
+	 			 		file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "'\n"
+	 			 	end
 	 			 end
 			end
 
