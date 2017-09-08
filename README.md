@@ -23,7 +23,10 @@ Or install it yourself as:
 
 ## Usage
 
-First it is very important to run a setup command. This is as simple as running `depswapper setup` in the console.
+First it is very important to run a setup command. 
+```bash
+depswapper setup
+```
 
 Now `depswapper` is ready to be used. Whenever you want to swap environments on any of your dependencies, run `depswapper test "NameOfYourFramework"` or `depswapper dev "NameOfYourFramework"` at the root of your Project.
 
