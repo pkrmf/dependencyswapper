@@ -1,8 +1,9 @@
 # Dependencyswapper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dependencyswapper`. To experiment with that code, run `bin/console` for an interactive prompt.
+Dependencyswapper also known as `depswapper` is a CocoaPods plugin that allows to switch between "dev/test/prod" environments with just running a simple ruby command.
 
-TODO: Delete this and the text above, and describe your gem
+As a watchOS, tvOS and iOS Framework developer I often find myself wanting to debug my non source Frameworks to make sure the problem is not in my dependent Application/Framework. It is always time consuming to have to find the `Podfile`, then look for the git repository of the Framework I want to debug and then google the syntax to read from a git repository. With this ruby gem, the only thing you need to do is keep track of your Framework repositories and add them to the `~/.depswapper/depmapper.json` file.
+
 
 ## Installation
 
@@ -22,13 +23,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+First it is very important to run a setup command. This is as simple as running `depswapper setup` in the console.
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Now `depswapper` is ready to be used. Whenever you want to swap environments on any of your dependencies, run `depswapper test "NameOfYourFramework"` or `depswapper dev "NameOfYourFramework"` at the root of your Project.
 
 ## Contributing
 
