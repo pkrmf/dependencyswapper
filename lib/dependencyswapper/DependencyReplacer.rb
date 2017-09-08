@@ -2,6 +2,7 @@
 require 'fileutils'
 require 'tempfile'
 require 'json'
+require 'find'
 
 module Dependency
 	class DependencyReplacer
@@ -20,56 +21,66 @@ module Dependency
 		end
 
 		def run
-
 			file_lines = ''
-			file = File.read("#{Dir.home}/.depswapper/depmapper.json")
-			dependency_replacements = JSON.parse(file)
+			# file = File.read("#{Dir.home}/.depswapper/depmapper.json")
+			# dependency_replacements = JSON.parse(file)
 
 			IO.readlines(@podfile_path).each do |line|
 	 			 file_lines += line unless line.include? "'" + dependency_name + "'"
 	 			 if line.include? "'" + dependency_name + "'"
-	 			 	# We will look at the DependencyMapper to map each Framework with its git repository.
-	 			 	remote_url = dependency_replacements[dependency_name]
+	 			 	# We will look in the cocoapods public/private repos to map each Framework with its git repository.
+	 			 	directories = Dir.glob("#{Dir.home}/.cocoapods/repos/**/" + dependency_name + ".podspec.json")
+	 			 	file = File.read(directories.last)
+					dependency_replacements = JSON.parse(file)
+
+	 			 	remote_url = dependency_replacements["homepage"]
 	 			 	if remote_url.to_s.empty?
-  						puts "You are missing the dependency mapping for " + dependency_name + ". Make sure to add it in #{Dir.home}/.depswapper/depmapper.json"
-					else 
+  						puts "You are missing the dependency mapping for " + dependency_name + "."
+					else
+						url_extension = File.extname(remote_url) 
+						if url_extension.to_s.empty?
+							remote_url = remote_url + ".git"
+						end
 	 			 		file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "'\n"
 	 			 	end
 	 			 end
 			end
-
-			#<extra string manipulation to file_lines if you wanted>
-
 			File.open(@podfile_path, 'w') do |file|
 	  			file.puts file_lines
 			end
+			`pod install`
 		end
 
 		def dev
-
 			file_lines = ''
-			file = File.read("#{Dir.home}/.depswapper/depmapper.json")
-			dependency_replacements = JSON.parse(file)
-
 			IO.readlines(@podfile_path).each do |line|
 	 			 file_lines += line unless line.include? "'" + dependency_name + "'"
 	 			 if line.include? "'" + dependency_name + "'"
-	 			 	# We will look at the DependencyMapper to map each Framework with its git repository.
-	 			 	remote_url = dependency_replacements[dependency_name]
+	 			 		 			 	# We will look in the cocoapods public/private repos to map each Framework with its git repository.
+	 			 	directories = Dir.glob("#{Dir.home}/.cocoapods/repos/**/" + dependency_name + ".podspec.json")
+	 			 	file = File.read(directories.last)
+					dependency_replacements = JSON.parse(file)
+
+	 			 	remote_url = dependency_replacements["homepage"]
 	 			 	if remote_url.to_s.empty?
-  						puts "You are missing the dependency mapping for " + dependency_name + ". Make sure to add it in #{Dir.home}/.depswapper/depmapper.json"
+  						puts "You are missing the dependency mapping for " + dependency_name + "."
 					else 
-						`git clone #{remote_url} dev-#{dependency_name}`
+						url_extension = File.extname(remote_url) 
+						if url_extension.to_s.empty?
+							remote_url = remote_url + ".git"
+						end
+						unless File.directory?("dev-#{dependency_name}")
+							`git clone #{remote_url} dev-#{dependency_name}`
+						end
 	 			 		file_lines += "pod '" + @dependency_name + "', :path => './dev-" + dependency_name + "/'\n"
 	 			 	end
 	 			 end
 			end
 
-			#<extra string manipulation to file_lines if you wanted>
-
 			File.open(@podfile_path, 'w') do |file|
 	  			file.puts file_lines
 			end
+			`pod install`
 		end
 	end
 end
