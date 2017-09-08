@@ -19,5 +19,11 @@ module Dependency
 				:dependency_name => @dependency_name
 			}).run
 		end
+
+		def dev
+			Dependency::DependencyReplacer.new({
+				:dependency_name => @dependency_name
+			}).dev
+		end
 	end
 end

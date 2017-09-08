@@ -10,6 +10,13 @@
 		}).run
   	end
 
+  	desc "development FrameworkName", "Pulls the FrameworkName as development pod(editable source)"
+  	def dev(name)
+    	Dependency::DependencySwapper.new({
+			:dependency_name => name
+		}).dev
+  	end
+
   	desc "setup", "Initial setup for depswapper"
   	def setup
   		puts "Make sure to add your dependency mappings in the ~/.depswapper/depmapper.json file!"
@@ -23,22 +30,5 @@
 		fi
 		`
 	end
-  #  		if ARGV[0].eql? "setup"
-  #  		`if [ ! -d ~/.depswapper ]; then
-  # 			mkdir -p ~/.depswapper;
-		# fi
-
-		# if [ ! -e ~/.depswapper/depmapper.json ];then
-  #   		touch ~/.depswapper/depmapper.json 
-  #   		echo '{\n\t\"DependencyName\":\"git-url\"\n}' > ~/.depswapper/depmapper.json
-		# fi
-
-		# echo "Make sure to add your dependency mappings in the ~/.depswapper/depmapper.json file!"
-		# `
-  #  		else
-  #  			Dependency::DependencySwapper.new({
-		# 		:dependency_name => ARGV[0]
-		# 	}).run
-  #  		end
    end
   end

@@ -44,5 +44,32 @@ module Dependency
 	  			file.puts file_lines
 			end
 		end
+
+		def dev
+
+			file_lines = ''
+			file = File.read("#{Dir.home}/.depswapper/depmapper.json")
+			dependency_replacements = JSON.parse(file)
+
+			IO.readlines(@podfile_path).each do |line|
+	 			 file_lines += line unless line.include? "'" + dependency_name + "'"
+	 			 if line.include? "'" + dependency_name + "'"
+	 			 	# We will look at the DependencyMapper to map each Framework with its git repository.
+	 			 	remote_url = dependency_replacements[dependency_name]
+	 			 	if remote_url.to_s.empty?
+  						puts "You are missing the dependency mapping for " + dependency_name + ". Make sure to add it in #{Dir.home}/.depswapper/depmapper.json"
+					else 
+						`git clone #{remote_url} dev-#{dependency_name}`
+	 			 		file_lines += "pod '" + @dependency_name + "', :path => './dev-" + dependency_name + "/'\n"
+	 			 	end
+	 			 end
+			end
+
+			#<extra string manipulation to file_lines if you wanted>
+
+			File.open(@podfile_path, 'w') do |file|
+	  			file.puts file_lines
+			end
+		end
 	end
 end
