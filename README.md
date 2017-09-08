@@ -2,7 +2,7 @@
 
 Dependencyswapper also known as `depswapper` is a CocoaPods plugin that allows to switch between "dev/test/prod" environments with just running a simple ruby command.
 
-As a watchOS, tvOS and iOS Framework developer I often find myself wanting to debug my non source Frameworks to make sure the problem is not in my dependent Application/Framework. It is always time consuming to have to find the `Podfile`, then look for the git repository of the Framework I want to debug and then google the syntax to read from a git repository. With this ruby gem, the only thing you need to do is keep track of your Framework repositories and add them to the `~/.depswapper/depmapper.json` file.
+As a watchOS, tvOS and iOS Framework developer I often find myself wanting to debug my non source Frameworks to make sure the problem is not in my dependent Application/Framework. It is always time consuming to have to find the `Podfile`, then look for the git repository of the Framework I want to debug and then google the syntax to read from a git repository. With `depswapper` you will be able to change between source/non source pods with just one command in the terminal.
 
 
 ## Installation
@@ -23,11 +23,10 @@ Or install it yourself as:
 
 ## Usage
 
-First it is very important to run a setup command.
 
-    $ depswapper setup 
-
-Now `depswapper` is ready to be used. Whenever you want to swap environments on any of your dependencies, run `depswapper test "NameOfYourFramework"` or `depswapper dev "NameOfYourFramework"` at the root of your Project.
+Whenever you want to swap environments on any of your dependencies, run `depswapper test "NameOfYourFramework"` or `depswapper dev "NameOfYourFramework"` at the root of your Project. 
+- The `dev` subcommand will clone the git repository for the pod and point to it locally.
+- The `test` subcommand will pull the pod directly from the git repository and pull it as source.
 
 ## Contributing
 
