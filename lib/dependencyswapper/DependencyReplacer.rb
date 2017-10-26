@@ -3,6 +3,7 @@ require 'fileutils'
 require 'tempfile'
 require 'json'
 require 'find'
+require "dependencyswapper/graph.rb"
 
 module Dependency
 	class DependencyReplacer
@@ -21,9 +22,21 @@ module Dependency
 		end
 
 		def run
+			graph = Dependency::Graph.new({
+				 			 	:podfilelock_path => @podfile_path + ".lock"
+			})
+			pods = graph.generate()
+
+			#tag variable to store the version
+			tag = ""
+
+			pods.each { |pod|
+				if pod.name.eql? @dependency_name
+					tag = pod.version
+				end
+			}
+
 			file_lines = ''
-			# file = File.read("#{Dir.home}/.depswapper/depmapper.json")
-			# dependency_replacements = JSON.parse(file)
 
 			IO.readlines(@podfile_path).each do |line|
 	 			 file_lines += line unless line.include? "'" + dependency_name + "'"
@@ -37,11 +50,16 @@ module Dependency
 	 			 	if remote_url.to_s.empty?
   						puts "You are missing the dependency mapping for " + dependency_name + "."
 					else
-						url_extension = File.extname(remote_url) 
+						url_extension = File.extname(remote_url)
 						if url_extension.to_s.empty?
 							remote_url = remote_url + ".git"
 						end
-	 			 		file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "'\n"
+
+						if tag.length > 0
+							file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "', :tag => '" + tag + "'\n"
+	 			 		else
+	 			 			file_lines += "pod '" + @dependency_name + "', :git => '" + remote_url + "'\n"
+	 			 		end
 	 			 	end
 	 			 end
 			end
@@ -64,13 +82,17 @@ module Dependency
 	 			 	remote_url = dependency_replacements["homepage"]
 	 			 	if remote_url.to_s.empty?
   						puts "You are missing the dependency mapping for " + dependency_name + "."
-					else 
-						url_extension = File.extname(remote_url) 
+					else
+						url_extension = File.extname(remote_url)
 						if url_extension.to_s.empty?
 							remote_url = remote_url + ".git"
 						end
 						unless File.directory?("dev-#{dependency_name}")
-							`git clone #{remote_url} dev-#{dependency_name}`
+							if tag.length > 0
+								`git clone --branch #{tag} #{remote_url} dev-#{dependency_name}`
+							else
+								`git clone #{remote_url} dev-#{dependency_name}`
+							end
 						end
 	 			 		file_lines += "pod '" + @dependency_name + "', :path => './dev-" + dependency_name + "/'\n"
 	 			 	end
