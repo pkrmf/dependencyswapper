@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "bin"
   spec.executables   = ["depswapper", "setup"]
   spec.require_paths = ["lib"]
-  spec.post_install_message = "Thanks for installing! Make sure to run `depswapper setup` command before start using depswapper!"
+  spec.post_install_message = "Thanks for installing!"
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
