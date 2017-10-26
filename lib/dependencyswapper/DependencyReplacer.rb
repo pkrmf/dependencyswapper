@@ -3,6 +3,7 @@ require 'fileutils'
 require 'tempfile'
 require 'json'
 require 'find'
+require "dependencyswapper/graph.rb"
 
 module Dependency
 	class DependencyReplacer
@@ -21,6 +22,15 @@ module Dependency
 		end
 
 		def run
+			graph = Dependency::Graph.new({
+				 			 	:podfilelock_path => @podfile_path + ".lock"
+			})
+			pods = graph.generate()
+
+			puts pods
+
+			abort()
+
 			file_lines = ''
 			# file = File.read("#{Dir.home}/.depswapper/depmapper.json")
 			# dependency_replacements = JSON.parse(file)
@@ -37,7 +47,7 @@ module Dependency
 	 			 	if remote_url.to_s.empty?
   						puts "You are missing the dependency mapping for " + dependency_name + "."
 					else
-						url_extension = File.extname(remote_url) 
+						url_extension = File.extname(remote_url)
 						if url_extension.to_s.empty?
 							remote_url = remote_url + ".git"
 						end
@@ -64,8 +74,8 @@ module Dependency
 	 			 	remote_url = dependency_replacements["homepage"]
 	 			 	if remote_url.to_s.empty?
   						puts "You are missing the dependency mapping for " + dependency_name + "."
-					else 
-						url_extension = File.extname(remote_url) 
+					else
+						url_extension = File.extname(remote_url)
 						if url_extension.to_s.empty?
 							remote_url = remote_url + ".git"
 						end
