@@ -17,7 +17,7 @@ module Dependency
 			@pods = Array.new()
 			if !File.exist?(@podfilelock_path)
 				puts "The Podfile.lock is missing. We will run pod install so we can generate the dependency graph to swap dependencies."
-				`pod install`
+				system("pod install")
 			end
 		end
 

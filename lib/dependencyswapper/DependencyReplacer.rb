@@ -3,6 +3,7 @@ require 'fileutils'
 require 'tempfile'
 require 'json'
 require 'find'
+require 'colorize'
 require "dependencyswapper/graph.rb"
 
 module Dependency
@@ -66,7 +67,7 @@ module Dependency
 			File.open(@podfile_path, 'w') do |file|
 	  			file.puts file_lines
 			end
-			`pod install`
+			system("pod install")
 		end
 
 		def dev
@@ -102,7 +103,9 @@ module Dependency
 			File.open(@podfile_path, 'w') do |file|
 	  			file.puts file_lines
 			end
-			`pod install`
+			development_dir = Dir.pwd + "/dev-" + dependency_name
+			puts "The development pod was cloned in ".green + development_dir.green
+			system("pod install")
 		end
 	end
 end
