@@ -71,6 +71,20 @@ module Dependency
 		end
 
 		def dev
+			graph = Dependency::Graph.new({
+				 :podfilelock_path => @podfile_path + ".lock"
+			})
+			pods = graph.generate()
+
+			#tag variable to store the version
+			tag = ""
+
+			pods.each { |pod|
+				if pod.name.eql? @dependency_name
+					tag = pod.version
+				end
+			}
+
 			file_lines = ''
 			IO.readlines(@podfile_path).each do |line|
 	 			 file_lines += line unless line.include? "'" + dependency_name + "'"
