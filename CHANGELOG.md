@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.5.2] - 2017-10-28
+### Added
+- Now dependencyswapper prints in console the directory where the development pod was installed.
+
 ## [0.5.1] - 2017-10-25
 ### Added
 - Fix issue with install message
@@ -16,4 +20,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added a CHANGELOG
 
 [0.5.0]: https://github.com/pkrmf/dependencyswapper/tree/tag/v0.5.0
-[0.5.1]: https://github.com/pkrmf/dependencyswapper/tree/tag/v0.5.0
+[0.5.1]: https://github.com/pkrmf/dependencyswapper/tree/tag/v0.5.1
+[0.5.2]: https://github.com/pkrmf/dependencyswapper/tree/tag/v0.5.2
